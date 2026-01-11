@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RezerwacjaKręgielnia</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/zephyr/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/RezerwacjaKręgielnia.styles.css" asp-append-version="true" />
+</head>
+
+<body class="app-bg">
+    @{
+        string IsActive(string controller, string action)
+        => (ViewContext.RouteData.Values["controller"]?.ToString() == controller
+        && ViewContext.RouteData.Values["action"]?.ToString() == action)
+        ? "active" : "";
+    }
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-semibold d-flex align-items-center gap-2"
+                   asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="brand-mark">🎳</span>
+                    <span>RezerwacjaKręgielnia</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link @IsActive("Home", "Index")" asp-area="" asp-controller="Home" asp-action="Index">
+                                Strona główna
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @IsActive("Reservations", "Index")" asp-area="" asp-controller="Reservations" asp-action="Index">
+                                Rezerwacja torów
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @IsActive("Home", "Privacy")" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                Polityka prywatności
+                            </a>
+                        </li>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item ms-lg-3">
+                                <a class="nav-link fw-bold text-warning @IsActive("Admin", "Index")"
+                                   asp-area="" asp-controller="Admin" asp-action="Index">
+                                    Panel administratora
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container my-4">
+        <main role="main" class="pb-3">
+            <div class="card border-0 shadow-sm app-card">
+                <div class="card-body p-4 p-lg-5">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top py-4 mt-auto text-muted app-footer">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+            <div>
+                &copy; 2026 Rezerwacja Kręgielnia
+            </div>
+            <div class="d-flex gap-3">
+                <a class="text-muted text-decoration-none" asp-area="" asp-controller="Home" asp-action="Privacy">
+                    Polityka prywatności
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

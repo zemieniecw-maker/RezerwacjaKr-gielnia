@@ -1,0 +1,29 @@
+﻿@model IEnumerable<RezerwacjaKręgielnia.Entities.ReservationEntity>
+
+<h2>Moje Rezerwacje</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Nowa Rezerwacja</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Nr Toru</th>
+            <th>Liczba graczy</th>
+            <th>Cena/h</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Date.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>Tor nr @item.Lane.LaneNumber</td>
+                <td>@item.NumberOfPlayers</td>
+                <td>@item.Lane.PricePerHour zł</td>
+            </tr>
+        }
+    </tbody>
+</table>

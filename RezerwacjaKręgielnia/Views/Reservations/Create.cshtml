@@ -1,0 +1,83 @@
+﻿@model RezerwacjaKręgielnia.Models.BookLaneViewModel
+
+<h2>Zarezerwuj Tor</h2>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group mb-3">
+        <label>Wybierz Tor:</label>
+        <select asp-for="LaneId" class="form-control" id="laneSelect" onchange="calculatePrice()">
+            @if (Model.AvailableLanes != null)
+            {
+                foreach (var lane in Model.AvailableLanes)
+                {
+                    <option value="@lane.Id" data-price="@lane.PricePerHour">
+                        Tor nr @lane.LaneNumber (Cena: @lane.PricePerHour zł/h)
+                    </option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Czas trwania:</label>
+        <select asp-for="Duration" class="form-control" id="durationSelect" onchange="calculatePrice()">
+            <option value="1">1 godzina</option>
+            <option value="2">2 godziny</option>
+            <option value="3">3 godziny</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Dzień:</label>
+        <input asp-for="Date" class="form-control" type="date" />
+    </div>
+    <div class="form-group mb-3">
+        <label>Godzina:</label>
+        <select asp-for="SelectedTime" class="form-control">
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+            <option value="19:00">19:00</option>
+            <option value="20:00">20:00</option>
+            <option value="21:00">21:00</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Liczba graczy:</label>
+        <input asp-for="NumberOfPlayers" class="form-control" min="1" max="6" value="2" />
+    </div>
+
+    <div class="alert alert-info">
+        <h4>Do zapłaty: <span id="totalPrice">0</span> zł</h4>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Rezerwuj</button>
+</form>
+
+<script>
+    function calculatePrice() {
+        // 1. Pobierz wybrany tor
+        var laneSelect = document.getElementById("laneSelect");
+        var selectedOption = laneSelect.options[laneSelect.selectedIndex];
+
+        // 2. Pobierz cenę z atrybutu 'data-price' (zamień kropkę na przecinek jeśli trzeba, tu zakładamy int)
+        var pricePerHour = parseFloat(selectedOption.getAttribute("data-price"));
+
+        // 3. Pobierz liczbę godzin
+        var duration = parseInt(document.getElementById("durationSelect").value);
+
+        // 4. Policz i wyświetl
+        var total = pricePerHour * duration;
+        document.getElementById("totalPrice").innerText = total;
+    }
+
+    // Uruchom raz przy starcie strony
+    window.onload = calculatePrice;
+</script>

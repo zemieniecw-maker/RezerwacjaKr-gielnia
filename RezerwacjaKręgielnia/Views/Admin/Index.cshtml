@@ -1,0 +1,60 @@
+﻿@model RezerwacjaKręgielnia.Models.AdminDashboardViewModel
+
+<h2>Panel Administratora</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Liczba Rezerwacji</div>
+            <div class="card-body">
+                <h3 class="card-title">@Model.TotalReservations</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Łączny Przychód</div>
+            <div class="card-body">
+                <h3 class="card-title">@Model.TotalRevenue zł</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Popularność Torów</h3>
+<div class="row mb-4">
+    <div class="col-md-4">
+        <ul class="list-group">
+            @foreach (var stat in Model.LaneStats)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Tor numer @stat.Key
+                    <span class="badge bg-primary rounded-pill">@stat.Value rezerwacji</span>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<h4>Wszystkie Rezerwacje</h4>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Data</th>
+            <th>Klient</th>
+            <th>Tor</th>
+            <th>Cena</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Reservations)
+        {
+            <tr>
+                <td>@item.Date.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@(item.User?.Email ?? "Nieznany")</td>
+                <td>Nr @item.Lane.LaneNumber</td>
+                <td>@item.Lane.PricePerHour zł</td>
+            </tr>
+        }
+    </tbody>
+</table>
