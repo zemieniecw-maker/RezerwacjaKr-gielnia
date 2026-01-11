@@ -18,7 +18,7 @@ builder.Services.AddDefaultIdentity<UserEntity>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
 })
-    .AddRoles<IdentityRole>() // Obsługa ról
+    .AddRoles<IdentityRole>() // Obsłóga ról
     .AddEntityFrameworkStores<BowlingDbContext>();
 
 // Rejestracja naszego serwisu
