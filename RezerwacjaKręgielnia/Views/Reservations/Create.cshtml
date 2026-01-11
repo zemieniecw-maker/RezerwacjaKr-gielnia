@@ -67,7 +67,7 @@
         var laneSelect = document.getElementById("laneSelect");
         var selectedOption = laneSelect.options[laneSelect.selectedIndex];
 
-        // 2. Pobierz cenę z atrybutu 'data-price' (zamień kropkę na przecinek jeśli trzeba, tu zakładamy int)
+        // 2. Pobierz cenę z atrybutu 'data-price' zamień kropkę na przecinek jeśli trzeba
         var pricePerHour = parseFloat(selectedOption.getAttribute("data-price"));
 
         // 3. Pobierz liczbę godzin
