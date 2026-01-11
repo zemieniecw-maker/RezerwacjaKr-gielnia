@@ -1,5 +1,5 @@
-using RezerwacjaKrêgielnia.Data;
-using RezerwacjaKrêgielnia.Entities;
+using RezerwacjaKrÃªgielnia.Data;
+using RezerwacjaKrÃªgielnia.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,19 +10,19 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<BowlingDbContext>(options =>
     options.UseSqlite(connectionString));
 
-// 2. Konfiguracja Identity (Logowanie)
+// 2. Konfiguracja Logowania
 builder.Services.AddDefaultIdentity<UserEntity>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false; // Nie wymagamy potwierdzania emailem
-    options.Password.RequireDigit = false; // Proste has³a do testów
+    options.Password.RequireDigit = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
 })
-    .AddRoles<IdentityRole>() // W³¹czamy obs³ugê ról (Admin/User)
+    .AddRoles<IdentityRole>() // ObsÅ‚Ã³ga rÃ³l
     .AddEntityFrameworkStores<BowlingDbContext>();
 
-// Rejestracja naszego serwisu (To jest ta brakuj¹ca linijka!)
-builder.Services.AddScoped<RezerwacjaKrêgielnia.Services.ReservationService>();
+// Rejestracja naszego serwisu
+builder.Services.AddScoped<RezerwacjaKrÃªgielnia.Services.ReservationService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -30,11 +30,10 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    // Uruchomienie seedera (tworzenie admina przy starcie)
-    await RezerwacjaKrêgielnia.Data.DbSeeder.SeedRolesAndAdminAsync(services);
+    // Uruchomienie seedera
+    await RezerwacjaKrÃªgielnia.Data.DbSeeder.SeedRolesAndAdminAsync(services);
 }
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -46,7 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization(); // To musi byæ!
+app.UseAuthorization(); // To musi byÃ¦!
 
 app.MapControllerRoute(
     name: "default",
