@@ -17,7 +17,6 @@ namespace RezerwacjaKręgielnia.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Pobieramy dane używając funkcji agregujących z serwisu (5 pkt za ORM)
             var model = new AdminDashboardViewModel
             {
                 TotalReservations = await _reservationService.GetTotalReservationsCountAsync(),
